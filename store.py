@@ -74,6 +74,7 @@ def show_list():
     print("code\t\tname\t\tprice")
     for product in PRODUCTS:
         print(product["code"]," \t",product["name"], "\t",product["price"])
+
 def buy():
     code_to_buy = input("Enter the product code to buy: ")
     for product in PRODUCTS:
@@ -81,22 +82,18 @@ def buy():
             quantity = int(input("Enter the quantity to buy: "))
             if int(product['count']) >= quantity:
                 product['count'] = str(int(product['count']) - quantity)
-                print(f"You have successfully bought {quantity} units of {product['name']}.")
+                total_price = float(product['price']) * quantity
+                print(f"Purchased: {product['name']} - Quantity: {quantity} - Price: {total_price}")
+                return
             else:
-                print("Not enough stock available for this product.")
-            return
-    print(f"Product with code {code_to_buy} not found.")
-    code_to_buy = input("Enter the product code to buy: ")
-    for product in PRODUCTS:
-        if product['code'] == code_to_buy:
-            quantity = int(input("Enter the quantity to buy: "))
-            if int(product['count']) >= quantity:
-                product['count'] = str(int(product['count']) - quantity)
-                print(f"You have successfully bought {quantity} units of {product['name']}.")
-            else:
-                print("Not enough stock available for this product.")
-            return
-    print(f"Product with code {code_to_buy} not found.")
+                print("Not enough quantity available.")
+                return
+    print("Product not found.")
+
+
+print("Receipt:")
+total_sum = sum(float(product['price']) * int(product['count']) for product in PRODUCTS)
+print(f"Total Sum: {total_sum}")
         
 
 
@@ -123,6 +120,9 @@ while True:
         buy()
     elif choice == 7:
         write_to_database()
+        print("Receipt:")
+        total_sum = sum(float(product['price']) * int(product['count']) for product in PRODUCTS)
+        print(f"Total Sum: {total_sum}")
         exit(0)
     else:
         print("Again")
