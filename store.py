@@ -1,3 +1,4 @@
+import qrcode 
 
 PRODUCTS = []
 
@@ -26,7 +27,8 @@ def show_menu():
     print("4-Search")
     print("5-Show List")
     print("6-Buy")
-    print("7-Exit")
+    print("7-qrcode")
+    print("8-Exit")
 
 def add():
     code = input("Enter code: ")
@@ -75,6 +77,14 @@ def show_list():
     for product in PRODUCTS:
         print(product["code"]," \t",product["name"], "\t",product["price"])
 
+def qrcode():
+    
+    name =int(input("Enter your code: "))
+   
+    x = qrcode.make(name)
+    x.save("my_Qrcode.png")
+
+
 def buy():
     code_to_buy = input("Enter the product code to buy: ")
     for product in PRODUCTS:
@@ -119,6 +129,8 @@ while True:
     elif choice == 6:
         buy()
     elif choice == 7:
+        qrcode()
+    elif choice == 8:
         write_to_database()
         print("Receipt:")
         total_sum = sum(float(product['price']) * int(product['count']) for product in PRODUCTS)
